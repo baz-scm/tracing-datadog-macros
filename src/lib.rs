@@ -62,8 +62,7 @@ pub fn instrument_queue_producer(attr: TokenStream, item: TokenStream) -> TokenS
 pub fn instrument_sql(attr: TokenStream, item: TokenStream) -> TokenStream {
     let attr: proc_macro2::TokenStream = attr.into();
     let item: proc_macro2::TokenStream = item.into();
-    let required_fields = Some(vec!["db.operation"]);
-    generate_instrumented_method(attr, item, SQL, required_fields, None).into()
+    generate_instrumented_method(attr, item, SQL, None, None).into()
 }
 
 #[proc_macro_attribute]
