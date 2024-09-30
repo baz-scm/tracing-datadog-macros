@@ -23,7 +23,7 @@ use quote::quote;
 const HTTP: &str = r#""span.type" = "http""#;
 const QUEUE_CONSUMER: &str = r#""span.type" = "queue", span.kind = "consumer", messaging.system = "pgmq""#;
 const QUEUE_PRODUCER: &str = r#""span.type" = "queue", span.kind = "producer", messaging.system = "pgmq""#;
-const SQL: &str = r#""span.type" = "sql""#;
+const SQL: &str = r#""span.type" = "sql", service.name = "database", db.system = "postgresql""#;
 const WEB: &str = r#""span.type" = "web""#;
 
 #[proc_macro_attribute]
