@@ -7,6 +7,7 @@ pub fn extend_fields(
 ) -> String {
     // either extend `fields` attribute in-place or just add it, if it was not set
     if input.is_empty() {
+        assert!(required_attrs.is_none(), "expected {required_attrs:?} attributes");
         format!(r#"fields({extra_fields})"#)
     } else if input.contains("fields(") {
         let (modified_input, extracted_fields) = extract_required_attributes(input, required_attrs);
