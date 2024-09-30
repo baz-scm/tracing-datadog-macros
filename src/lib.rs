@@ -31,7 +31,7 @@ pub fn instrument_custom(attr: TokenStream, item: TokenStream) -> TokenStream {
     let attr: proc_macro2::TokenStream = attr.into();
     let item: proc_macro2::TokenStream = item.into();
     let required_attrs = Some(vec!["service_name"]);
-    generate_instrumented_method(attr, item, "", None, required_attrs).into()
+    generate_instrumented_method(attr, item, "", required_attrs).into()
 }
 
 #[proc_macro_attribute]
@@ -39,7 +39,7 @@ pub fn instrument_http(attr: TokenStream, item: TokenStream) -> TokenStream {
     let attr: proc_macro2::TokenStream = attr.into();
     let item: proc_macro2::TokenStream = item.into();
     let required_attrs = Some(vec!["service_name"]);
-    generate_instrumented_method(attr, item, HTTP, None, required_attrs).into()
+    generate_instrumented_method(attr, item, HTTP, required_attrs).into()
 }
 
 #[proc_macro_attribute]
@@ -47,7 +47,7 @@ pub fn instrument_queue_consumer(attr: TokenStream, item: TokenStream) -> TokenS
     let attr: proc_macro2::TokenStream = attr.into();
     let item: proc_macro2::TokenStream = item.into();
     let required_attrs = Some(vec!["service_name"]);
-    generate_instrumented_method(attr, item, QUEUE_CONSUMER, None, required_attrs).into()
+    generate_instrumented_method(attr, item, QUEUE_CONSUMER, required_attrs).into()
 }
 
 #[proc_macro_attribute]
@@ -55,22 +55,21 @@ pub fn instrument_queue_producer(attr: TokenStream, item: TokenStream) -> TokenS
     let attr: proc_macro2::TokenStream = attr.into();
     let item: proc_macro2::TokenStream = item.into();
     let required_attrs = Some(vec!["service_name"]);
-    generate_instrumented_method(attr, item, QUEUE_PRODUCER, None, required_attrs).into()
+    generate_instrumented_method(attr, item, QUEUE_PRODUCER, required_attrs).into()
 }
 
 #[proc_macro_attribute]
 pub fn instrument_sql(attr: TokenStream, item: TokenStream) -> TokenStream {
     let attr: proc_macro2::TokenStream = attr.into();
     let item: proc_macro2::TokenStream = item.into();
-    let required_fields = Some(vec!["db.operation"]);
-    generate_instrumented_method(attr, item, SQL, required_fields, None).into()
+    generate_instrumented_method(attr, item, SQL, None).into()
 }
 
 #[proc_macro_attribute]
 pub fn instrument_web(attr: TokenStream, item: TokenStream) -> TokenStream {
     let attr: proc_macro2::TokenStream = attr.into();
     let item: proc_macro2::TokenStream = item.into();
-    generate_instrumented_method(attr, item, WEB, None, None).into()
+    generate_instrumented_method(attr, item, WEB, None).into()
 }
 
 #[allow(clippy::needless_pass_by_value)]
@@ -78,11 +77,10 @@ fn generate_instrumented_method(
     attr: proc_macro2::TokenStream,
     item: proc_macro2::TokenStream,
     extra_fields: &str,
-    required_fields: Option<Vec<&str>>,
     required_attrs: Option<Vec<&str>>,
 ) -> proc_macro2::TokenStream {
     let extended_attr: proc_macro2::TokenStream =
-        attr::extend_fields(attr.to_string().as_str(), extra_fields, required_fields, required_attrs)
+        attr::extend_fields(attr.to_string().as_str(), extra_fields, required_attrs)
             .parse()
             .unwrap();
 

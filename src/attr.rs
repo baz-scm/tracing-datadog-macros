@@ -3,31 +3,14 @@ use regex::Regex;
 pub fn extend_fields(
     input: &str,
     extra_fields: &str,
-    required_fields: Option<Vec<&str>>,
     required_attrs: Option<Vec<&str>>,
 ) -> String {
     // either extend `fields` attribute in-place or just add it, if it was not set
     if input.is_empty() {
-        assert!(
-            required_fields.is_none(),
-            "expected {:?} fields",
-            required_fields.unwrap()
-        );
-        assert!(
-            required_attrs.is_none(),
-            "expected {:?} attributes",
-            required_attrs.unwrap()
-        );
         format!(r#"fields({extra_fields})"#)
     } else if input.contains("fields(") {
         let (modified_input, extracted_fields) = extract_required_attributes(input, required_attrs);
         let (attr_left, fields, attr_right) = extract_fields(&modified_input);
-
-        assert!(
-            required_fields.is_none() || required_fields.as_ref().unwrap().iter().all(|f| fields.contains(f)),
-            "expected {:?} fields",
-            required_fields.unwrap()
-        );
 
         let separator = if extra_fields.is_empty() || extracted_fields.is_empty() {
             String::new()
@@ -36,12 +19,6 @@ pub fn extend_fields(
         };
         format!("{attr_left}fields({fields}, {extra_fields}{separator}{extracted_fields}){attr_right}")
     } else {
-        assert!(
-            required_fields.is_none(),
-            "expected {:?} fields",
-            required_fields.unwrap()
-        );
-
         let (mut modified_input, extracted_fields) = extract_required_attributes(input, required_attrs);
         if !modified_input.is_empty() {
             // in case we have an empty `modified_input` we don't need the trailing `,`
@@ -66,7 +43,7 @@ fn extract_required_attributes(input: &str, required_attrs: Option<Vec<&str>>) -
     let mut fields = vec![];
 
     for attr in required_attrs.unwrap() {
-        assert!(attr == "service_name", "required attribute '{attr}' is not supported");
+        assert_eq!(attr, "service_name", "required attribute '{attr}' is not supported");
 
         let re = Regex::new(format!(r#"{attr}\s=\s([^,\s]+),?\s?"#).as_str()).unwrap();
         if let Some(caps) = re.captures(&output) {
@@ -120,7 +97,7 @@ mod tests {
         let extra_fields = r#""span.type" = "web""#;
 
         // when
-        let extended_attr = extend_fields(input, extra_fields, None, None);
+        let extended_attr = extend_fields(input, extra_fields, None);
 
         // then
         assert_eq!(extended_attr, expected);
@@ -141,24 +118,10 @@ mod tests {
         let required_attrs = Some(vec!["service_name"]);
 
         // when
-        let extended_attr = extend_fields(input, extra_fields, None, required_attrs);
+        let extended_attr = extend_fields(input, extra_fields, required_attrs);
 
         // then
         assert_eq!(extended_attr, expected);
-    }
-
-    #[rstest]
-    #[case::empty("")]
-    #[case::with_fields(r#"fields(http.method = "POST")"#)]
-    #[case::no_fields("skip(self)")]
-    #[should_panic]
-    fn test_extend_fields_panics(#[case] input: &str) {
-        // given
-        let extra_fields = r#""span.type" = "web""#;
-        let required_fields = Some(vec!["service.name"]);
-
-        // when/then
-        extend_fields(input, extra_fields, required_fields, None);
     }
 
     #[test]
