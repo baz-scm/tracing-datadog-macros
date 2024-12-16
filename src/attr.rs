@@ -1,10 +1,6 @@
 use regex::Regex;
 
-pub fn extend_fields(
-    input: &str,
-    extra_fields: &str,
-    required_attrs: Option<Vec<&str>>,
-) -> String {
+pub fn extend_fields(input: &str, extra_fields: &str, required_attrs: Option<Vec<&str>>) -> String {
     // either extend `fields` attribute in-place or just add it, if it was not set
     if input.is_empty() {
         assert!(required_attrs.is_none(), "expected {required_attrs:?} attributes");
