@@ -1,10 +1,6 @@
 use regex::Regex;
 
-pub fn extend_fields(
-    input: &str,
-    extra_fields: &str,
-    required_attrs: Option<Vec<&str>>,
-) -> String {
+pub fn extend_fields(input: &str, extra_fields: &str, required_attrs: Option<Vec<&str>>) -> String {
     // either extend `fields` attribute in-place or just add it, if it was not set
     if input.is_empty() {
         assert!(required_attrs.is_none(), "expected {required_attrs:?} attributes");
@@ -87,15 +83,15 @@ mod tests {
     use rstest::rstest;
 
     #[rstest]
-    #[case::empty("", r#"fields("span.type" = "web")"#)]
+    #[case::empty("", r#"fields(span.type = "web")"#)]
     #[case::with_fields(
         r#"fields(service.name = "baz")"#,
-        r#"fields(service.name = "baz", "span.type" = "web")"#
+        r#"fields(service.name = "baz", span.type = "web")"#
     )]
-    #[case::no_fields("skip(self)", r#"skip(self), fields("span.type" = "web")"#)]
+    #[case::no_fields("skip(self)", r#"skip(self), fields(span.type = "web")"#)]
     fn test_extend_fields(#[case] input: &str, #[case] expected: &str) {
         // given
-        let extra_fields = r#""span.type" = "web""#;
+        let extra_fields = r#"span.type = "web""#;
 
         // when
         let extended_attr = extend_fields(input, extra_fields, None);
@@ -107,15 +103,15 @@ mod tests {
     #[rstest]
     #[case::with_fields(
         r#"service_name = ServiceName::Database.as_ref(), fields(db.name = "baz")"#,
-        r#"fields(db.name = "baz", "span.type" = "sql", service.name = ServiceName::Database.as_ref())"#
+        r#"fields(db.name = "baz", span.type = "sql", service.name = ServiceName::Database.as_ref())"#
     )]
     #[case::no_fields(
         r#"service_name = "database", skip(self)"#,
-        r#"skip(self), fields("span.type" = "sql", service.name = "database")"#
+        r#"skip(self), fields(span.type = "sql", service.name = "database")"#
     )]
     fn test_extend_fields_with_required_attrs(#[case] input: &str, #[case] expected: &str) {
         // given
-        let extra_fields = r#""span.type" = "sql""#;
+        let extra_fields = r#"span.type = "sql""#;
         let required_attrs = Some(vec!["service_name"]);
 
         // when

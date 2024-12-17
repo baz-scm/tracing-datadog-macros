@@ -2,6 +2,7 @@
 name = "tracing-datadog-macros"
 version = "0.0.1"
 edition = "2021"
+rust-version = "1.67.1" # MSRV
 
 description = "Collection of convenience macros to use with Datadog tracing"
 keywords = ["datadog", "tracing"]
@@ -19,9 +20,7 @@ proc-macro = true
 [dependencies]
 proc-macro2 = "1.0"
 quote = "1.0"
-regex = "1.10"
-syn = { version = "2.0", default-features = false, features = ["full", "parsing", "proc-macro"] }
-tracing-attributes = { git = "https://github.com/baz-scm/tracing.git", branch = "v0.1.x" }
+regex = "1.11"
 
 [dev-dependencies]
-rstest = "0.18.2"
+rstest = "0.23.0" # 0.24+ needs Rust 1.70+
