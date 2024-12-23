@@ -22,7 +22,7 @@
 
 ![Crates.io](https://img.shields.io/crates/v/tracing-datadog-macros) 
 ![Rust](https://img.shields.io/badge/rust-2021-blue)
-![Build](https://github.com/baz-scm/tracing-datadog-macros/workflows/Build/badge.svg)
+![Release](https://github.com/baz-scm/tracing-datadog-macros/workflows/Release/badge.svg)
 
 ## 🚀 What is `tracing-datadog-macros`?
 
