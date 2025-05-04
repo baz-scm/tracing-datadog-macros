@@ -27,7 +27,7 @@ pub fn extend_fields(input: &str, extra_fields: &str, required_attrs: Option<Vec
             ", ".to_string()
         };
 
-        format!("r{modified_input}fields({extra_fields}{separator}{extracted_fields})")
+        format!(r"{modified_input}fields({extra_fields}{separator}{extracted_fields})")
     }
 }
 
