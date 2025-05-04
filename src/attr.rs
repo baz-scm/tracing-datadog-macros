@@ -1,10 +1,10 @@
 use regex::Regex;
 
 pub fn extend_fields(input: &str, extra_fields: &str, required_attrs: Option<Vec<&str>>) -> String {
-    // either extend `fields` attribute in-place or just add it, if it was not set
+    // either extend the ` fields ` attribute in-place or just add it, if it was not set
     if input.is_empty() {
         assert!(required_attrs.is_none(), "expected {required_attrs:?} attributes");
-        format!(r#"fields({extra_fields})"#)
+        format!(r"fields({extra_fields})")
     } else if input.contains("fields(") {
         let (modified_input, extracted_fields) = extract_required_attributes(input, required_attrs);
         let (attr_left, fields, attr_right) = extract_fields(&modified_input);
@@ -27,7 +27,7 @@ pub fn extend_fields(input: &str, extra_fields: &str, required_attrs: Option<Vec
             ", ".to_string()
         };
 
-        format!(r#"{modified_input}fields({extra_fields}{separator}{extracted_fields})"#)
+        format!(r"{modified_input}fields({extra_fields}{separator}{extracted_fields})")
     }
 }
 
@@ -42,7 +42,7 @@ fn extract_required_attributes(input: &str, required_attrs: Option<Vec<&str>>) -
     for attr in required_attrs.unwrap() {
         assert_eq!(attr, "service_name", "required attribute '{attr}' is not supported");
 
-        let re = Regex::new(format!(r#"{attr}\s=\s([^,\s]+),?\s?"#).as_str()).unwrap();
+        let re = Regex::new(format!(r"{attr}\s=\s([^,\s]+),?\s?").as_str()).unwrap();
         if let Some(caps) = re.captures(&output) {
             fields.push(format!("service.name = {}", caps.get(1).unwrap().as_str()));
             output = output.replace(&caps[0], "");
