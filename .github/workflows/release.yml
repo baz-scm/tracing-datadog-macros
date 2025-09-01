@@ -17,7 +17,7 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: stable
@@ -55,7 +55,7 @@ jobs:
       # IMPORTANT: this permission is mandatory for trusted publishing to pypi
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: taiki-e/install-action@v2
         with:
           tool: cargo-release
