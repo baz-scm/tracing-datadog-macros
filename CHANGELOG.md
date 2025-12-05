@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.0](https://github.com/baz-scm/tracing-datadog-macros/compare/v0.0.3...v0.1.0) (2025-12-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* add dedicated MSRV CI test and increase MSRV to 1.68.2 ([#12](https://github.com/baz-scm/tracing-datadog-macros/issues/12))
+
+### 🐛 Bug Fixes
+
+* add dedicated MSRV CI test and increase MSRV to 1.68.2 ([#12](https://github.com/baz-scm/tracing-datadog-macros/issues/12)) ([e3a2f0e](https://github.com/baz-scm/tracing-datadog-macros/commit/e3a2f0e067198d6ebe76a038addb8a5e572d044e))
+
 ## [0.0.3](https://github.com/baz-scm/tracing-datadog-macros/compare/v0.0.2...v0.0.3) (2024-12-26)
 
 
