@@ -2,7 +2,7 @@
 name = "tracing-datadog-macros"
 version = "0.0.3"
 edition = "2021"
-rust-version = "1.67.1" # MSRV
+rust-version = "1.68.2" # MSRV
 
 description = "Collection of convenience macros to use with Datadog tracing"
 keywords = ["datadog", "tracing"]
