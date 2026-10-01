@@ -47,7 +47,7 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@v2
         with:
           toolchain: stable
-      - uses: taiki-e/install-action@v2.87.1
+      - uses: taiki-e/install-action@v2.87.21
         with:
           tool: cargo-msrv
       - name: Check MSRV
